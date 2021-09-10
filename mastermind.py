@@ -1,3 +1,5 @@
+"""This is the classic mastermind game. Adapted for playing on the command-line or using a GUI thanks to pygame. Work in progress"""
+
 import random, argparse
 
 
@@ -69,4 +71,4 @@ def play_game(turns: int, players: int):
 if __name__ == "__main__":
     args = parse_args()
 
-    play_game(args.t, args.p)  # Turns and players
+    play_game(args.t, args.p)  # Starts a game with specific turns and players
