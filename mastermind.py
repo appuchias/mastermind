@@ -83,6 +83,7 @@ def check_codes(ai: list[int], user: list[int]) -> tuple[int, int]:
 
 def play_game(turns: int, players: int):
     is_game_finished = lambda x, y: x == y
+
     if players == 1:
         ai_code = get_ai_code()
         # print(ai_code)
@@ -94,12 +95,14 @@ def play_game(turns: int, players: int):
                 return True
             code_status = check_codes(ai_code, user_code)
             # print(user_code)
-            # print(f"{code_status[0]}h, {code_status[1]}d")
+            print(f"{code_status[0]}h, {code_status[1]}d")
         else:
-            print("You lost. You ran out of turns")
+            print(f"You lost. You ran out of turns. Code was: {ai_code}")
             return False
+
     elif players == 2:
         ...
+
     else:
         print("Invalid value reached function")
 
