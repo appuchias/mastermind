@@ -1,4 +1,4 @@
-"""This is the classic mastermind game. Adapted for playing on the command-line or using a GUI thanks to pygame. Work in progress"""
+"""This is the classic mastermind game. Adapted for playing through command-line or using a GUI thanks to pygame. Work in progress."""
 
 import random, argparse
 
