@@ -1,7 +1,32 @@
 import random, argparse
 
 
-def get_ai_code():
+def parse_args() -> argparse.Namespace:
+    """Gets CL arguments for game. Returns a Namespace object with t and p values meaning turns and players"""
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-t",
+        metavar="turns",
+        help="Select the number of turns available",
+        type=int,
+        default=12,
+    )
+    parser.add_argument(
+        "-p",
+        metavar="players",
+        help="Select number of players for this game (1 or 2)",
+        choices=[1, 2],
+        default=1,
+    )
+
+    args = parser.parse_args()
+
+    return args
+
+
+def get_ai_code() -> list[int]:
+    """Randomizes ai code"""
     numbers = list(range(10))
     random.shuffle(numbers)
 
@@ -10,30 +35,38 @@ def get_ai_code():
     return code
 
 
-def play_game(turns: int, mode: str):
-    ai_code = get_ai_code()
+def get_user_input(turn: int) -> list[int]:
+    is_user_input_valid = False
+    while not is_user_input_valid:
+        user_code = (
+            input(f"This is turn {turn}. Please inut your guess (4 digits):\n> ")
+            .strip()
+            .replace(" ", "")
+        )
+        if len(user_code) == 4 and user_code.isdigit():
+            is_user_input_valid = True
+        else:
+            print("Your input was not valid.")
+
+    user_code = [int(n) for n in list(user_code)]
+
+    return user_code
+
+
+def play_game(turns: int, players: int):
+    if players == 1:
+        ai_code = get_ai_code()
+
+        for turn in range(1, turns + 1):
+            user_code = get_user_input(turn)
+            print(user_code)
+    elif players == 2:
+        ...
+    else:
+        print("Invalid value reached function")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    args = parse_args()
 
-    parser.add_argument(
-        "-t",
-        "--turns",
-        help="Select the number of turns available",
-        type=int,
-        default=12,
-    )
-    parser.add_argument(
-        "-m",
-        "--mode",
-        help="Game mode",
-        choices=["1-player", "2-player"],
-        default="1-player",
-    )
-
-    args = parser.parse_args()
-
-    print(args)
-
-    play_game()
+    play_game(args.t, args.p)  # Turns and players
