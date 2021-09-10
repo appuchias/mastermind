@@ -60,13 +60,13 @@ def check_codes(ai: list[int], user: list[int]) -> tuple[int, int]:
     hurt = 0  # Correct number, incorrect placement
     dead = 0  # Correct number,   correct placement
 
-    for idx, n in enumerate(ai):
-        if user[idx] == n:
-            dead += 1
-
     for n in user:
         if n in ai:
             hurt += 1
+
+    for idx in range(4):
+        if user[idx] == ai[idx]:
+            dead += 1
 
     hurt -= dead
 
