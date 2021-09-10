@@ -55,13 +55,49 @@ def get_user_input(turn: int) -> list[int]:
     return user_code
 
 
+def check_codes(ai: list[int], user: list[int]) -> tuple[int, int]:
+    """Checks amount of numbers and placement correct in the user code. Returns in format (hurt, dead)"""
+    hurt = 0  # Correct number, incorrect placement
+    dead = 0  # Correct number,   correct placement
+
+    for idx, n in enumerate(ai):
+        if user[idx] == n:
+            dead += 1
+
+    for n in user:
+        if n in ai:
+            hurt += 1
+
+    hurt -= dead
+
+    return hurt, dead
+
+    # TODO: Transfer info to dict to avoid repetitions
+    """
+    [7, 4, 1, 6]
+    - - -
+    [4, 4, 4, 4]
+    *3h, 1d* -> 0h, 1d
+    """
+
+
 def play_game(turns: int, players: int):
+    is_game_finished = lambda x, y: x == y
     if players == 1:
         ai_code = get_ai_code()
+        # print(ai_code)
 
         for turn in range(1, turns + 1):
             user_code = get_user_input(turn)
-            print(user_code)
+            if is_game_finished(ai_code, user_code):
+                print(f"You've won. The code was: {ai_code}")
+                return True
+            code_status = check_codes(ai_code, user_code)
+            # print(user_code)
+            # print(f"{code_status[0]}h, {code_status[1]}d")
+        else:
+            print("You lost. You ran out of turns")
+            return False
     elif players == 2:
         ...
     else:
