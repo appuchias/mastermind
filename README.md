@@ -15,7 +15,7 @@ This is the classic mastermind game where you have to bruteforce a 4-digit code 
 1. Navigate to the desired folder: `cd <path>`
 1. Clone the repo: `git clone https://github.com/appuchias/mastermind.git`
 1. Navigate into the repo folder: `cd mastermind`
-1. Run the file: `python main.py`
+1. Run the file: `python mastermind.py`
 
 ## License
 
