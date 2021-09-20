@@ -18,8 +18,8 @@ def parse_args() -> argparse.Namespace:
         "-p",
         metavar="players",
         help="Select number of players for this game (1 or 2)",
-        choices=[1, 2],
-        default=1,
+        choices=["1", "2"],
+        default="1",
     )
 
     args = parser.parse_args()
@@ -94,6 +94,7 @@ def play_game(turns: int, players: int):
             return False
 
     elif players == 2:
+        print("2 players. Working on it")
         ...
 
     else:
@@ -103,4 +104,9 @@ def play_game(turns: int, players: int):
 if __name__ == "__main__":
     args = parse_args()
 
-    play_game(args.t, args.p)  # Starts a game with specific turns and players
+    if args.p.isdigit():
+        players = int(args.p)
+    else:
+        raise ValueError("Could not convert players to int")
+
+    play_game(args.t, players)  # Starts a game with specific turns and players
