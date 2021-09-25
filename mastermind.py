@@ -1,6 +1,7 @@
 """This is the classic mastermind game. Adapted for playing through command-line or using a GUI thanks to pygame. Work in progress."""
 
 import random, argparse
+from getpass import getpass
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,15 +38,19 @@ def get_ai_code() -> list[int]:
     return code
 
 
-def get_user_input(turn: int) -> list[int]:
+def get_user_input(turn: int, player: int = 0) -> list[int]:
     is_user_input_valid = False
     while not is_user_input_valid:
         user_code = (
-            input(f"This is turn {turn}. Please inut your guess (4 digits):\n> ")
+            input(
+                "\n------------\nThis is turn"
+                f" {turn}{f' for player {player}' if player else ''}. Please inut your"
+                " guess (4 digits):\n> "
+            )
             .strip()
             .replace(" ", "")
         )
-        if len(user_code) == 4 and user_code.isdigit():
+        if len(set(user_code)) == 4 and user_code.isdigit():
             is_user_input_valid = True
         else:
             print("Your input was not valid.")
@@ -74,6 +79,35 @@ def check_codes(ai: list[int], user: list[int]) -> tuple[int, int]:
     return hurt, dead
 
 
+def get_users_code() -> list[list[int]]:
+    codes = []
+    for player in range(2):
+        is_user_input_valid = False
+        while not is_user_input_valid:
+            hidden_code = (
+                getpass(
+                    f"\n------------\nInput your hidden code, player {player+1}. 4"
+                    " digits, no spaces. You won't see it appear on screen, but it"
+                    " will be registered.\n> "
+                )
+                .strip()
+                .replace(" ", "")
+            )
+            if len(set(hidden_code)) == 4 and hidden_code.isdigit():
+                is_user_input_valid = True
+            else:
+                print("Your input was not valid.")
+
+        hidden_code = [int(n) for n in list(hidden_code)]
+
+        codes.append(hidden_code)
+        print(hidden_code)
+
+    assert len(codes) == 2
+
+    return codes
+
+
 def play_game(turns: int, players: int):
     is_game_finished = lambda x, y: x == y
 
@@ -84,7 +118,7 @@ def play_game(turns: int, players: int):
         for turn in range(1, turns + 1):
             user_code = get_user_input(turn)
             if is_game_finished(ai_code, user_code):
-                print(f"You've won. The code was: {ai_code}")
+                print(f"\n------------\nYou've won. The code was: {ai_code}")
                 return True
             code_status = check_codes(ai_code, user_code)
             # print(user_code)
@@ -94,8 +128,23 @@ def play_game(turns: int, players: int):
             return False
 
     elif players == 2:
-        print("2 players. Working on it")
-        ...
+        codes = get_users_code()
+
+        for turn in range(1, turns + 1):
+            for player in range(1, 3):
+                user_code = get_user_input(turn, player)
+                if is_game_finished(codes[2 - player], user_code):
+                    print(f"You've won. The code was: {ai_code}")
+                    return True
+                code_status = check_codes(codes[2 - player], user_code)
+                print(f"{code_status[0]}h, {code_status[1]}d")
+        else:
+            for player in range(1, 3):
+                print(
+                    f"You lost, player {player}. You ran out of turns. Code was:"
+                    f" {codes[2 - player]}"
+                )
+            return False
 
     else:
         print("Invalid value reached function")
