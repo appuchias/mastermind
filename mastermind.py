@@ -43,9 +43,7 @@ def get_user_input(turn: int, player: int = 0) -> list[int]:
     while not is_user_input_valid:
         user_code = (
             input(
-                "\n------------\nThis is turn"
-                f" {turn}{f' for player {player}' if player else ''}. Please inut your"
-                " guess (4 digits):\n> "
+                f"--------------\n[{turn}] - {f' for player {player}. ' if player else ''}Please inut your guess (4 digits):\n> "
             )
             .strip()
             .replace(" ", "")
@@ -101,7 +99,7 @@ def get_users_code() -> list[list[int]]:
         hidden_code = [int(n) for n in list(hidden_code)]
 
         codes.append(hidden_code)
-        print(hidden_code)
+        # print(hidden_code) # Here for debug purposes
 
     assert len(codes) == 2
 
@@ -113,7 +111,7 @@ def play_game(turns: int, players: int):
 
     if players == 1:
         ai_code = get_ai_code()
-        print(ai_code)
+        # print(ai_code) # Here for debug purposes
 
         for turn in range(1, turns + 1):
             user_code = get_user_input(turn)
@@ -131,10 +129,11 @@ def play_game(turns: int, players: int):
         codes = get_users_code()
 
         for turn in range(1, turns + 1):
-            for player in range(1, 3):
+            for player in range(1, 2 + 1):
                 user_code = get_user_input(turn, player)
                 if is_game_finished(codes[2 - player], user_code):
-                    print(f"You've won. The code was: {ai_code}")
+                    print(f"You've won. The code was: {codes[2 - player]}")
+                    print(f"The other player's code was: {codes[player - 1]}")
                     return True
                 code_status = check_codes(codes[2 - player], user_code)
                 print(f"{code_status[0]}h, {code_status[1]}d")
