@@ -1,6 +1,6 @@
 # Mastermind
 
-[![MIT license](https://img.shields.io/github/license/appuchias/mastermind?style=flat-square)](https://github.com/appuchias/mastermind/blob/master/LICENSE)
+[![GPL 3.0+ license](https://img.shields.io/github/license/appuchias/mastermind?style=flat-square)](https://github.com/appuchias/mastermind/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/Project%20by-Appu-9cf?style=flat-square)](https://github.com/appuchias)
 ![Size](https://img.shields.io/github/repo-size/appuchias/mastermind?color=orange&style=flat-square)
 
@@ -17,6 +17,6 @@ This is the classic mastermind game where you have to bruteforce a 4-digit code 
 
 ## License
 
-This project is licensed under the [MIT license](https://github.com/appuchias/mastermind/blob/master/LICENSE).
+This project is licensed under the [GPL 3.0+ license](https://github.com/appuchias/mastermind/blob/master/LICENSE).
 
 Coded with 🖤 by Appu
